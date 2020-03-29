@@ -25,7 +25,7 @@ def print_metrics(labels, preds):
     print('F1 Score     {:.2f}       {:.2f}'.format(scores[2][1], scores[2][0]))
 
 
-def roc_curve(labels, probs):
+def roc_curve(labels, probs, name, suffix):
     fpr, tpr, thresholds = metrics.roc_curve(labels, probs)
     roc_auc = metrics.auc(fpr, tpr)
 
@@ -35,8 +35,17 @@ def roc_curve(labels, probs):
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.0])
     plt.rcParams['font.size'] = 12
-    plt.title('ROC Curve for Multiple Fatality Random Forest Classifier')
+    plt.title(f'ROC Curve for Multiple Fatality {name} Classifier')
     plt.xlabel('False Positive Rate (1 - Specificity)')
     plt.ylabel('True Positive Rate (Sensitivity)')
     plt.legend(loc='lower right')
     plt.show()
+    fig.savefig(f'visualizations/roc_curve_{suffix}.png')
+
+
+def feature_importance():
+    pass
+
+
+def permutation_importance():
+    pass

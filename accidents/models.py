@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
+import utils
 import pandas as pd
 from sklearn.preprocessing import OrdinalEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-import utils
+from sklearn.linear_model import LogisticRegressionCV
 
 
 def main():
@@ -40,10 +41,16 @@ def main():
         'Random Forest': (RandomForestClassifier(n_estimators=100,
                                                  min_samples_leaf=5,
                                                  random_state=2020),
-                          'rf')
+                          'rf'),
+        'Logistic Regression': (LogisticRegressionCV(cv=5, scoring='f1',
+                                                     max_iter=500,
+                                                     random_state=2020),
+                                'lr')
     }
 
     for name, (model, suffix) in models.items():
+        print(name)
+        print('-' * 20)
         model.fit(X_train, y_train)
 
         y_pred = model.predict(X_test)
@@ -53,6 +60,7 @@ def main():
         utils.roc_curve(y_test, y_probs, name, suffix)
         utils.feature_importance(model, feature_names, name, suffix)
         utils.permutation_importances(model, X_test, y_test, feature_names, name, suffix)
+        print('#' * 50)
 
 
 if __name__ == '__main__':

@@ -52,14 +52,14 @@ def roc_curve(labels, probs, name, suffix):
 def feature_importance(model, feature_names, name, suffix, n_features=10):
     try:
         feature_importances = model.feature_importances_
+        sorted_idx = feature_importances.argsort()[:n_features]
     except AttributeError:
         try:
             feature_importances = model.coef_[0]
+            sorted_idx = abs(feature_importances).argsort()[:n_features]
         except AttributeError as ae:
             print(ae)
             sys.exit(1)
-
-    sorted_idx = feature_importances.argsort()[:n_features]
 
     y_ticks = np.arange(0, n_features)
     fig, ax = plt.subplots(figsize=(16, 8))

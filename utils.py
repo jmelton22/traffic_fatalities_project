@@ -3,6 +3,7 @@
 import sys
 import numpy as np
 from sklearn import metrics
+from sklearn.inspection import permutation_importance
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -70,5 +71,13 @@ def feature_importance(model, feature_names, name, suffix, n_features=10):
     fig.savefig(f'visualizations/feature_importances_{suffix}.png')
 
 
-def permutation_importance():
-    pass
+def permutation_importances(model, X, y, feature_names, name, suffix, n_features=10):
+    result = permutation_importance(model, X, y, n_repeats=10, random_state=2020)
+    sorted_idx = result.importances_mean.argsort()[:n_features]
+
+    fig, ax = plt.subplots(figsize=(16, 8))
+    ax.boxplot(result.importances[sorted_idx].T,
+               vert=False, labels=feature_names[sorted_idx])
+    ax.set_title(f'{name} Permutation Importances (test set)')
+    plt.show()
+    fig.savefig(f'visualizations/permutation_importances_{suffix}.png')

@@ -52,6 +52,7 @@ def main():
         utils.print_metrics(y_test, y_pred)
         utils.roc_curve(y_test, y_probs, name, suffix)
         utils.feature_importance(model, feature_names, name, suffix)
+        utils.permutation_importances(model, X_test, y_test, feature_names, name, suffix)
 
 
 if __name__ == '__main__':

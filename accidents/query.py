@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 
-import numpy as np
 import pandas as pd
 from google.cloud import bigquery
 from bq_helper import BigQueryHelper
 
 
 def main():
-    path = '~/data/accidents'
+    path = '../data/accidents'
     bq_assistant = BigQueryHelper('bigquery-public-data', 'nhtsa_traffic_fatalities')
 
     QUERY = """

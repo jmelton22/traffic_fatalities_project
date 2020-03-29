@@ -6,7 +6,7 @@ from bq_helper import BigQueryHelper
 
 
 def main():
-    path = '~/data/states'
+    path = '../data/states'
     bq_assistant = BigQueryHelper('bigquery-public-data', 'nhtsa_traffic_fatalities')
 
     """

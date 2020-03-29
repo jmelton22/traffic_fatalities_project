@@ -106,31 +106,31 @@ def data_prep(data):
 
     # Create part of day categorical column
     data['part_of_day'] = data['hour_of_day'].apply(hour_category)
-    data.drop('hour_of_day', axis=1, inplace=True)
+    # data.drop('hour_of_day', axis=1, inplace=True)
 
     # Create binary class column: is_weekend (0: weekday, 1: weekend)
     data['is_weekend'] = data['day_of_week'].apply(lambda x: 1 if x in ['Saturday', 'Sunday'] else 0)
-    data.drop('day_of_week', axis=1, inplace=True)
+    # data.drop('day_of_week', axis=1, inplace=True)
 
     # Create binary class column: multiple_vehicles (0: single vehicle; 1: multiple vehicles)
     data['multiple_vehicles'] = data['num_vehicles'].apply(lambda x: 1 if x > 1 else 0)
-    data.drop('num_vehicles', axis=1, inplace=True)
+    # data.drop('num_vehicles', axis=1, inplace=True)
 
     # Create binary class column: nonmotorist_involed (0: no non-motorists; 1: non-motorist(s) involved)
     data['nonmotorist_involved'] = data['num_nonmotorists'].apply(lambda x: 1 if x > 0 else 0)
-    data.drop('num_nonmotorists', axis=1, inplace=True)
+    # data.drop('num_nonmotorists', axis=1, inplace=True)
 
     # Create binary class column: multiple_motorists (0: single motorist; 1: multiple motorists)
     data['multiple_motorists'] = data['num_motorists'].apply(lambda x: 1 if x > 1 else 0)
-    data.drop('num_motorists', axis=1, inplace=True)
+    # data.drop('num_motorists', axis=1, inplace=True)
 
     # Create binary class column: drunk_driver_involved (0: no drunk driver; 1: drunk driver involved)
     data['drunk_driver_involved'] = data['num_drunk_drivers'].apply(lambda x: 1 if x > 0 else 0)
-    data.drop('num_drunk_drivers', axis=1, inplace=True)
+    # data.drop('num_drunk_drivers', axis=1, inplace=True)
 
     # Create binary class label column: multiple fatalities (0: single fatality accident; 1: multiple fatalities)
     data['multiple_fatalities'] = data['num_fatalities'].apply(lambda x: 1 if x > 1 else 0)
-    data.drop('num_fatalities', axis=1, inplace=True)
+    # data.drop('num_fatalities', axis=1, inplace=True)
 
     data['previous_dwi_convictions'] = data['previous_dwi_convictions'].apply(binarize_col)
     data['previous_speeding_convictions'] = data['previous_speeding_convictions'].apply(binarize_col)
@@ -140,10 +140,10 @@ def data_prep(data):
     data.dropna(inplace=True)
 
     # Reset columns types to integers
-    data['national_highway_system'] = data['national_highway_system'].astype(int)
-    data['previous_dwi_convictions'] = data['previous_dwi_convictions'].astype(int)
-    data['previous_speeding_convictions'] = data['previous_speeding_convictions'].astype(int)
-    data['speeding_related'] = data['speeding_related'].astype(int)
+    cols = ['hour_of_day', 'national_highway_system', 'previous_dwi_convictions',
+            'previous_speeding_convictions', 'speeding_related', 'speed_limit', 'driver_vision_obscured']
+    for col in cols:
+        data[col] = data[col].astype(int)
 
     data.reset_index(drop=True, inplace=True)
 

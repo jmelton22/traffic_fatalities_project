@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
+import sys
+import numpy as np
 from sklearn import metrics
 import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set()
 
 
 def print_metrics(labels, preds):
@@ -43,8 +48,26 @@ def roc_curve(labels, probs, name, suffix):
     fig.savefig(f'visualizations/roc_curve_{suffix}.png')
 
 
-def feature_importance():
-    pass
+def feature_importance(model, feature_names, name, suffix, n_features=10):
+    try:
+        feature_importances = model.feature_importances_
+    except AttributeError:
+        try:
+            feature_importances = model.coef_[0]
+        except AttributeError as ae:
+            print(ae)
+            sys.exit(1)
+
+    sorted_idx = feature_importances.argsort()[:n_features]
+
+    y_ticks = np.arange(0, n_features)
+    fig, ax = plt.subplots(figsize=(16, 8))
+    ax.barh(y_ticks, feature_importances[sorted_idx])
+    ax.set_yticklabels(feature_names[sorted_idx])
+    ax.set_yticks(y_ticks)
+    ax.set_title(f'{name} Feature Importances')
+    plt.show()
+    fig.savefig(f'visualizations/feature_importances_{suffix}.png')
 
 
 def permutation_importance():

@@ -38,7 +38,6 @@ def main():
 
     models = {
         'Random Forest': (RandomForestClassifier(n_estimators=100,
-                                                 class_weight='balanced',
                                                  min_samples_leaf=5,
                                                  random_state=2020),
                           'rf')
@@ -52,6 +51,7 @@ def main():
 
         utils.print_metrics(y_test, y_pred)
         utils.roc_curve(y_test, y_probs, name, suffix)
+        utils.feature_importance(model, feature_names, name, suffix)
 
 
 if __name__ == '__main__':

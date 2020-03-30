@@ -30,5 +30,18 @@ Precision    0.65       0.74
 Recall       0.81       0.54
 F1 Score     0.72       0.63
 ##################################################
+SVM (Linear Kernel)
+    Confusion Matrix
+                 Predict Positive    Predict Negative
+Actual Positive         13830                 1266
+Actual Negative         8367                 6287
 
-Process finished with exit code 0
+Accuracy: 0.676
+
+    Classification Report
+           Positive    Negative
+Num cases    15096      14654
+Precision    0.62       0.83
+Recall       0.92       0.43
+F1 Score     0.74       0.57
+##################################################

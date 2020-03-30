@@ -45,6 +45,8 @@ def data_prep(data):
 
     data.dropna(inplace=True)
 
+    data['sex'] = data['sex'].apply(lambda x: 1 if x == 'Male' else 0)
+
     data['fatality'] = data['injury_severity'].apply(lambda x: 1 if 'Fatal' in x or 'Died' in x else 0)
 
     # Refactor land_use column to binary (0: Urban; 1: Rural)

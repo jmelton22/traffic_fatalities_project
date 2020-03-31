@@ -30,3 +30,20 @@ Precision    0.64       0.74
 Recall       0.81       0.54
 F1 Score     0.72       0.62
 ##################################################
+K-Nearest Neighbors
+Best k: {'n_neighbors': 1} (5-fold cv)
+
+    Confusion Matrix
+                 Predict Positive    Predict Negative
+Actual Positive         14781                 9
+Actual Negative         1738                 12908
+
+Accuracy: 0.941
+
+    Classification Report
+           Positive    Negative
+Num cases    14790      14646
+Precision    0.89       1.00
+Recall       1.00       0.88
+F1 Score     0.94       0.94
+##################################################

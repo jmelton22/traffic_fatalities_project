@@ -61,8 +61,8 @@ def main():
         utils.print_metrics(y_test, y_pred)
         utils.roc_curve(y_test, y_probs, name, suffix)
         utils.feature_importance(model, feature_names, name, suffix)
-        utils.permutation_importances(model, X_test, y_test, feature_names, name, suffix + '_test')
-        # utils.permutation_importances(model, X_train, y_train, feature_names, name, suffix + '_train')
+        utils.permutation_importances(model, X_test, y_test, feature_names, name, suffix)
+        utils.permutation_importances(model, X_train, y_train, feature_names, name, suffix, dataset='train')
         print('#' * 50)
 
 

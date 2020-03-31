@@ -41,7 +41,7 @@ def roc_curve(labels, probs, name, suffix):
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.0])
     plt.rcParams['font.size'] = 12
-    plt.title(f'ROC Curve for Multiple Fatality {name} Classifier')
+    plt.title(f'ROC Curve for {name} Classifier')
     plt.xlabel('False Positive Rate (1 - Specificity)')
     plt.ylabel('True Positive Rate (Sensitivity)')
     plt.legend(loc='lower right')
@@ -71,13 +71,13 @@ def feature_importance(model, feature_names, name, suffix, n_features=10):
     fig.savefig(f'visualizations/feature_importances_{suffix}.png')
 
 
-def permutation_importances(model, X, y, feature_names, name, suffix, n_features=10):
+def permutation_importances(model, X, y, feature_names, name, suffix, dataset='test', n_features=10):
     result = permutation_importance(model, X, y, n_repeats=10, random_state=2020)
     sorted_idx = result.importances_mean.argsort()[:n_features]
 
     fig, ax = plt.subplots(figsize=(16, 8))
     ax.boxplot(result.importances[sorted_idx].T,
                vert=False, labels=feature_names[sorted_idx])
-    ax.set_title(f'{name} Permutation Importances (test set)')
+    ax.set_title(f'{name} Permutation Importances ({dataset} set)')
     plt.show()
-    fig.savefig(f'visualizations/permutation_importances_{suffix}.png')
+    fig.savefig(f'visualizations/permutation_importances_{suffix}_{dataset}.png')

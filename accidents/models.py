@@ -31,8 +31,8 @@ def main():
     oe = OrdinalEncoder()
     features = oe.fit_transform(features)
 
-    # scaler = StandardScaler()
-    # features = scaler.fit_transform(features)
+    scaler = StandardScaler()
+    features = scaler.fit_transform(features)
 
     X_train, X_test, y_train, y_test = train_test_split(features, labels,
                                                         test_size=0.2, random_state=2020)
@@ -46,7 +46,7 @@ def main():
                                                  random_state=2020),
                           'rf'),
         'Logistic Regression': (LogisticRegressionCV(cv=5, scoring='f1',
-                                                     max_iter=500,
+                                                     max_iter=1000,
                                                      random_state=2020),
                                 'lr')
     }
@@ -62,8 +62,8 @@ def main():
         utils.print_metrics(y_test, y_pred)
         utils.roc_curve(y_test, y_probs, name, suffix)
         utils.feature_importance(model, feature_names, name, suffix)
-        utils.permutation_importances(model, X_test, y_test, feature_names, name, suffix + '_test')
-        utils.permutation_importances(model, X_train, y_train, feature_names, name, suffix + '_train')
+        utils.permutation_importances(model, X_test, y_test, feature_names, name, suffix)
+        utils.permutation_importances(model, X_train, y_train, feature_names, name, suffix, dataset='train')
         print('#' * 50)
 
 

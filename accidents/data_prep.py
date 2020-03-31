@@ -34,6 +34,7 @@ def data_prep(data):
     # Replace Unknown and Not Reported values with NaN
     data.replace({'Unknown': np.nan,
                   'Not Reported': np.nan,
+                  'Trafficway Not in State Inventory': np.nan,
                   'Not Reported (Since 2010)': np.nan,
                   'Unknown Body Type': np.nan},
                  inplace=True)
@@ -51,6 +52,10 @@ def data_prep(data):
     data['previous_dwi_convictions'].replace({99: np.nan, 998: np.nan}, inplace=True)
     data['previous_speeding_convictions'].replace({99: np.nan, 998: np.nan}, inplace=True)
     data['speed_limit'].replace({98: np.nan, 99: np.nan}, inplace=True)
+
+    data['body_type'].replace(r'Unknown', np.nan, regex=True, inplace=True)
+
+    data.dropna(inplace=True)
 
     # Feature Engineering
 
@@ -73,27 +78,19 @@ def data_prep(data):
             return np.nan
 
     def binarize_col(x):
-        if np.isnan(x):
-            return x
-        elif x > 0:
+        if x > 0:
             return 1
         else:
             return 0
 
     def speeding_binary(x):
-        if type(x) is float:
-            return np.nan
         if 'Yes' in x:
             return 1
         elif 'No' in x:
             return 0
-        else:
-            return np.nan
 
     def vision_binary(x):
-        if type(x) is float:
-            return np.nan
-        elif x == 'No Obstruction Noted' or x == 'No Driver Present/Unknown if Driver Present':
+        if x == 'No Obstruction Noted' or x == 'No Driver Present/Unknown if Driver Present':
             return 0
         else:
             return 1
@@ -106,38 +103,29 @@ def data_prep(data):
 
     # Create part of day categorical column
     data['part_of_day'] = data['hour_of_day'].apply(hour_category)
-    # data.drop('hour_of_day', axis=1, inplace=True)
 
     # Create binary class column: is_weekend (0: weekday, 1: weekend)
     data['is_weekend'] = data['day_of_week'].apply(lambda x: 1 if x in ['Saturday', 'Sunday'] else 0)
-    # data.drop('day_of_week', axis=1, inplace=True)
 
     # Create binary class column: multiple_vehicles (0: single vehicle; 1: multiple vehicles)
     data['multiple_vehicles'] = data['num_vehicles'].apply(lambda x: 1 if x > 1 else 0)
-    # data.drop('num_vehicles', axis=1, inplace=True)
 
     # Create binary class column: nonmotorist_involed (0: no non-motorists; 1: non-motorist(s) involved)
     data['nonmotorist_involved'] = data['num_nonmotorists'].apply(lambda x: 1 if x > 0 else 0)
-    # data.drop('num_nonmotorists', axis=1, inplace=True)
 
     # Create binary class column: multiple_motorists (0: single motorist; 1: multiple motorists)
     data['multiple_motorists'] = data['num_motorists'].apply(lambda x: 1 if x > 1 else 0)
-    # data.drop('num_motorists', axis=1, inplace=True)
 
     # Create binary class column: drunk_driver_involved (0: no drunk driver; 1: drunk driver involved)
     data['drunk_driver_involved'] = data['num_drunk_drivers'].apply(lambda x: 1 if x > 0 else 0)
-    # data.drop('num_drunk_drivers', axis=1, inplace=True)
 
     # Create binary class label column: multiple fatalities (0: single fatality accident; 1: multiple fatalities)
     data['multiple_fatalities'] = data['num_fatalities'].apply(lambda x: 1 if x > 1 else 0)
-    # data.drop('num_fatalities', axis=1, inplace=True)
 
     data['previous_dwi_convictions'] = data['previous_dwi_convictions'].apply(binarize_col)
     data['previous_speeding_convictions'] = data['previous_speeding_convictions'].apply(binarize_col)
     data['speeding_related'] = data['speeding_related'].apply(speeding_binary)
     data['driver_vision_obscured'] = data['driver_vision_obscured'].apply(vision_binary)
-
-    data.dropna(inplace=True)
 
     # Reset columns types to integers
     cols = ['hour_of_day', 'national_highway_system', 'previous_dwi_convictions',

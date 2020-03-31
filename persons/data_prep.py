@@ -43,6 +43,8 @@ def data_prep(data):
     data['age'].replace({998: np.nan,
                          999: np.nan}, inplace=True)
 
+    data['body_type'].replace(r'Unknown', np.nan, regex=True, inplace=True)
+
     data.dropna(inplace=True)
 
     data['sex'] = data['sex'].apply(lambda x: 1 if x == 'Male' else 0)

@@ -124,6 +124,8 @@ def data_prep(data):
     # Create binary class label column: multiple fatalities (0: single fatality accident; 1: multiple fatalities)
     data['multiple_fatalities'] = data['num_fatalities'].apply(lambda x: 1 if x > 1 else 0)
 
+    data['rollover'] = data['rollover'].apply(lambda x: 0 if x == 'No Rollover' else 1)
+
     data['previous_dwi_convictions'] = data['previous_dwi_convictions'].apply(binarize_col)
     data['previous_speeding_convictions'] = data['previous_speeding_convictions'].apply(binarize_col)
     data['speeding_related'] = data['speeding_related'].apply(speeding_binary)

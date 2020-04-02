@@ -56,6 +56,7 @@ def main():
             number_of_drunk_drivers AS num_drunk_drivers,
             body_type_name AS body_type,
             vehicle_model_year AS vehicle_year,
+            rollover,
             contributing_circumstances_motor_vehicle_name AS vehicle_conditions,
             previous_dwi_convictions,
             previous_speeding_convictions,

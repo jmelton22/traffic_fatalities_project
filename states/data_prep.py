@@ -52,9 +52,9 @@ def main():
 def accident_data_prep():
     path = '../data/accidents'
     data = pd.read_csv(f'{path}/accident_data_clean.csv', header=0)
-    data.drop(['consecutive_number', 'vehicle_number', 'year', 'latitude', 'longitude'], axis=1, inplace=True)
+    data.drop(['consecutive_number', 'vehicle_number', 'year', 'latitude', 'longitude', 'month'], axis=1, inplace=True)
 
-    cat_cols = ['day_of_week', 'month', 'roadway_type', 'intersection', 'light_condition', 'atmospheric_conditions',
+    cat_cols = ['day_of_week', 'roadway_type', 'intersection', 'light_condition', 'atmospheric_conditions',
                 'manner_of_collision', 'body_type', 'vehicle_conditions', 'part_of_day']
     binary_cols = ['land_use_urban', 'national_highway_system', 'previous_dwi_convictions', 'rollover',
                    'speeding_related', 'previous_speeding_convictions', 'driver_vision_obscured', 'is_weekend',

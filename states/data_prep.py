@@ -4,6 +4,8 @@ import pandas as pd
 
 
 def main():
+    pd.set_option('display.max_columns', None)
+
     path = '../data/states'
 
     population_data = pd.read_excel(f'{path}/state_populations.xlsx', header=0, index_col='state_name')
@@ -33,18 +35,32 @@ def main():
     accident_fatality_data_2016['accidents_per_100k'] = (accident_fatality_data_2016['accidents'] / accident_fatality_data_2016[2016]) * 10 ** 5
 
     accident_fatality_data = pd.concat([accident_fatality_data_2015, accident_fatality_data_2016])
-    accident_fatality_data = accident_fatality_data.groupby('state_name').mean().drop(['year', 2015, 2016], axis=1)
-    accident_fatality_data['state_number'] = accident_fatality_data['state_number'].astype(int)
+    accident_fatality_data = accident_fatality_data.groupby(['state_name', 'state_number']).mean()
+    accident_fatality_data.drop(['year', 2015, 2016], axis=1, inplace=True)
 
     accident_fatality_data.info()
     print()
-    print(accident_fatality_data.describe())
-    print()
-    print(accident_fatality_data)
+    accident_data = accident_data_prep()
 
 
-def accident_data():
-    pass
+def accident_data_prep():
+    path = '../data/accidents'
+    data = pd.read_csv(f'{path}/accident_data_clean.csv', header=0)
+
+    cat_cols = ['day_of_week', 'month', 'roadway_type', 'intersection', 'light_condition', 'atmospheric_conditions',
+                'manner_of_collision', 'body_type', 'vehicle_conditions', 'part_of_day']
+    binary_cols = ['land_use_urban', 'national_highway_system', 'previous_dwi_convictions', 'speeding_related',
+                   'previous_speeding_convictions', 'driver_vision_obscured', 'is_weekend', 'multiple_vehicles',
+                   'nonmotorist_involved', 'multiple_motorists', 'drunk_driver_involved', 'multiple_fatalities']
+    numeric_cols = ['hour_of_day', 'vehicle_year', 'speed_limit']
+
+    data = pd.get_dummies(data, columns=cat_cols)
+
+    data = data.groupby(['state_name', 'state_number']).mean()
+    data.drop(['consecutive_number', 'vehicle_number', 'year', 'latitude', 'longitude'], axis=1, inplace=True)
+
+    # Remove columns where all mean values are less than 0.01
+    return data.loc[:, (data > 0.01).all(axis=0)]
 
 
 def person_data():

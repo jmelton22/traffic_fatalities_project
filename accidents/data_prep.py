@@ -15,6 +15,7 @@ def main():
 
     accident_data = pd.concat([data_2015, data_2016])
     accident_data.reset_index(drop=True, inplace=True)
+    accident_data.info()
 
     accident_data.to_csv(f'{path}/accident_data_clean.csv', index=False)
 
@@ -52,6 +53,7 @@ def data_prep(data):
     data['previous_dwi_convictions'].replace({99: np.nan, 998: np.nan}, inplace=True)
     data['previous_speeding_convictions'].replace({99: np.nan, 998: np.nan}, inplace=True)
     data['speed_limit'].replace({98: np.nan, 99: np.nan}, inplace=True)
+    data['vehicle_year'].replace({9998: np.nan, 9999: np.nan}, inplace=True)
 
     data['body_type'].replace(r'Unknown', np.nan, regex=True, inplace=True)
 
@@ -128,7 +130,7 @@ def data_prep(data):
     data['driver_vision_obscured'] = data['driver_vision_obscured'].apply(vision_binary)
 
     # Reset columns types to integers
-    cols = ['hour_of_day', 'national_highway_system', 'previous_dwi_convictions',
+    cols = ['hour_of_day', 'national_highway_system', 'previous_dwi_convictions', 'vehicle_year',
             'previous_speeding_convictions', 'speeding_related', 'speed_limit', 'driver_vision_obscured']
     for col in cols:
         data[col] = data[col].astype(int)

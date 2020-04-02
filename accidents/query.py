@@ -11,6 +11,7 @@ def main():
 
     QUERY = """
         SELECT
+            a.state_number,
             a.consecutive_number,
             veh.vehicle_number,
             state_name,

@@ -18,13 +18,14 @@ def main():
 
     QUERY = """
         SELECT
+            state_number,
             state_name,
             COUNT(consecutive_number) AS accidents,
             SUM(number_of_fatalities) AS fatalities,
             SUM(number_of_fatalities) / COUNT(consecutive_number) AS fatalities_per_accident
         FROM
             `bigquery-public-data.nhtsa_traffic_fatalities.accident_{0}`
-        GROUP BY state_name
+        GROUP BY state_number, state_name
         ORDER BY fatalities_per_accident DESC
     """
 

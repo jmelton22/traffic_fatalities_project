@@ -28,6 +28,7 @@ def main():
 
     data.set_index(['state_name', 'state_code', 'state_number'], inplace=True)
     rank_data = data.rank(ascending=False)
+    rank_data.to_csv(f'{path}/state_rank_accident_data.csv', index=True)
 
     print(rank_data[rank_data['accidents_per_100k'] <= 5].sort_values('accidents_per_100k'))
 

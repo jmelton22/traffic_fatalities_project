@@ -1,34 +1,45 @@
 #!/usr/bin/env python3
 
 import pandas as pd
+import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.graph_objects as go
 
 sns.set()
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
 
-year = 2016
-path = '../data/states'
 
-accident_fatality_data = pd.read_csv(f'{path}/accident_fatalities_{year}.csv', header=0, index_col='state_name')
-population_data = pd.read_excel(f'{path}/state_populations.xlsx', header=0, index_col='state_name')
+def main():
+    path = '../data/states'
+    data = pd.read_csv(f'{path}/state_mean_accident_data.csv', header=0)
 
-us_state_codes = {'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR', 'California': 'CA',
-                  'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE', 'Florida': 'FL', 'Georgia': 'GA',
-                  'Hawaii': 'HI', 'Idaho': 'ID', 'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA',
-                  'Kansas': 'KS', 'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 'Maryland': 'MD',
-                  'Massachusetts': 'MA', 'Michigan': 'MI', 'Minnesota': 'MN', 'Mississippi': 'MS', 'Missouri': 'MO',
-                  'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV', 'New Hampshire': 'NH', 'New Jersey': 'NJ',
-                  'New Mexico': 'NM', 'New York': 'NY', 'North Carolina': 'NC', 'North Dakota': 'ND', 'Ohio': 'OH',
-                  'Oklahoma': 'OK', 'Oregon': 'OR', 'Pennsylvania': 'PA', 'Rhode Island': 'RI', 'South Carolina': 'SC',
-                  'South Dakota': 'SD', 'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT', 'Vermont': 'VT',
-                  'Virginia': 'VA', 'Washington': 'WA', 'West Virginia': 'WV', 'Wisconsin': 'WI', 'Wyoming': 'WY',
-                  'District of Columbia': 'DC', 'Puerto Rico': 'PR'}
+    choropleth_title = 'Mean Fatal Accidents by State, 2015-2016'
+    colorbar_title = 'Fatal Accidents'
+    choropleth_map(data['state_code'],
+                   data['accidents'],
+                   choropleth_title, colorbar_title)
 
-accident_fatality_data['state_code'] = accident_fatality_data.index.map(us_state_codes)
-population_data['state_code'] = population_data.index.map(us_state_codes)
+    choropleth_title = 'Mean Fatal Accidents by State per 100k Population, 2015-2016'
+    colorbar_title = 'Fatal Accidents per 100k'
+    choropleth_map(data['state_code'],
+                   data['accidents_per_100k'],
+                   choropleth_title, colorbar_title)
 
-accident_fatality_data = accident_fatality_data.join(population_data[year])
-accident_fatality_data['accidents_per_100k'] = (accident_fatality_data['accidents'] / accident_fatality_data[year]) * 10**5
+    data.set_index(['state_name', 'state_code', 'state_number'], inplace=True)
+    rank_data = data.rank(ascending=False)
+
+    print(rank_data[rank_data['accidents_per_100k'] <= 5].sort_values('accidents_per_100k'))
+
+    ax = data.plot.scatter(x='land_use_urban', y='accidents_per_100k',
+                           figsize=(16, 8), s=120, linewidth=0)
+
+    for k, v in data.iterrows():
+        ax.annotate(k[1], (v['land_use_urban'], v['accidents_per_100k']),
+                    xytext=(10, -5), textcoords='offset points',
+                    family='sans-serif', fontsize=14, color='darkslategrey')
+
+    plt.show()
 
 
 def choropleth_map(location_series, data_series, title, legend_title):
@@ -64,15 +75,5 @@ def choropleth_map(location_series, data_series, title, legend_title):
     # fig.write_image('visualizations/choropleth_accidents_by_state.png')
 
 
-choropleth_title = '2016 Fatal Accidents by State'
-colorbar_title = 'Fatal Accidents'
-choropleth_map(accident_fatality_data['state_code'],
-               accident_fatality_data['accidents'],
-               choropleth_title, colorbar_title)
-
-
-choropleth_title = '2016 Fatal Accidents by State per 100k Population'
-colorbar_title = 'Fatal Accidents per 100k'
-choropleth_map(accident_fatality_data['state_code'],
-               accident_fatality_data['accidents_per_100k'],
-               choropleth_title, colorbar_title)
+if __name__ == '__main__':
+    main()

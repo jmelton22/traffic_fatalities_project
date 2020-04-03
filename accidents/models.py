@@ -26,6 +26,8 @@ def main():
     features = data[cat_cols + binary_cols + numeric_cols]
 
     # features = pd.get_dummies(features, columns=cat_cols, drop_first=True)
+    # features.rename(columns={'manner_of_collision_Not Collision with Motor Vehicle in Transport (Not Necessarily in Transport for\n2005-2009)': 'manner_of_collision_Not Collision with Motor Vehicle in Transport'},
+    #                 inplace=True)
     feature_names = features.columns
 
     oe = OrdinalEncoder()

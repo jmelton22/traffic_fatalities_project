@@ -32,13 +32,9 @@ def main():
 
     print(rank_data[rank_data['accidents_per_100k'] <= 5].sort_values('accidents_per_100k'))
 
-    ax = data.plot.scatter(x='land_use_urban', y='accidents_per_100k',
-                           figsize=(16, 8), s=120, linewidth=0)
-
-    for k, v in data.iterrows():
-        ax.annotate(k[1], (v['land_use_urban'], v['accidents_per_100k']),
-                    xytext=(10, -5), textcoords='offset points',
-                    family='sans-serif', fontsize=14, color='darkslategrey')
+    scatter_plot(data, 'land_use_urban')
+    scatter_plot(data, 'safety_equipment_use_None Used')
+    scatter_plot(data, 'light_condition_Dark – Not Lighted')
 
     plt.show()
 
@@ -74,6 +70,17 @@ def choropleth_map(location_series, data_series, title, legend_title):
 
     fig.show()
     # fig.write_image('visualizations/choropleth_accidents_by_state.png')
+
+
+def scatter_plot(df, x, y='accidents_per_100k'):
+    ax = df.plot.scatter(x=x, y=y, figsize=(16, 8), s=120, linewidth=0)
+
+    for k, v in df.iterrows():
+        ax.annotate(k[1], (v[x], v[y]),
+                    xytext=(10, -5), textcoords='offset points',
+                    family='sans-serif', fontsize=14, color='darkslategrey')
+    ax.get_figure().savefig(f'visualizations/{y}_vs_{x}.png')
+    plt.show()
 
 
 if __name__ == '__main__':

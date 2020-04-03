@@ -13,7 +13,7 @@ def main():
     data = pd.read_csv(f'{path}/accident_data_clean_balanced.csv', header=0)
 
     # Feature columns
-    cat_cols = ['month', 'roadway_type', 'intersection', 'light_condition', 'atmospheric_conditions',
+    cat_cols = ['roadway_type', 'intersection', 'light_condition', 'atmospheric_conditions',
                 'manner_of_collision', 'body_type', 'vehicle_conditions', 'part_of_day']
     binary_cols = ['land_use_urban', 'national_highway_system', 'previous_dwi_convictions',
                    'previous_speeding_convictions', 'speeding_related', 'driver_vision_obscured', 'is_weekend',
@@ -24,9 +24,9 @@ def main():
 
     labels = data['multiple_fatalities']
     features = data[cat_cols + binary_cols + numeric_cols]
-    feature_names = features.columns
 
     # features = pd.get_dummies(features, columns=cat_cols, drop_first=True)
+    feature_names = features.columns
 
     oe = OrdinalEncoder()
     features = oe.fit_transform(features)

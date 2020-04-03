@@ -44,6 +44,8 @@ def main():
     data = accident_fatality_data.join(accident_data).join(person_data)
     data.reset_index(inplace=True)
     data['state_code'] = data['state_name'].map(us_state_codes)
+    data.rename(columns={'manner_of_collision_Not Collision with Motor Vehicle in Transport (Not Necessarily in Transport for\n2005-2009)': 'manner_of_collision_Not Collision with Motor Vehicle in Transport'},
+                inplace=True)
     data.info()
 
     data.to_csv(f'{path}/state_mean_accident_data.csv', index=False)
@@ -66,8 +68,8 @@ def accident_data_prep():
 
     data = data.groupby(['state_name', 'state_number']).mean()
 
-    # Remove columns where all mean values are less than 0.1%
-    data = data.loc[:, (data > 0.001).all(axis=0)]
+    # Remove columns where column mean value is below 0.01
+    data = data.loc[:, data.mean() > 0.01]
 
     return data
 
@@ -87,8 +89,8 @@ def person_data_prep():
 
     data = data.groupby('state_number').mean()
 
-    # Remove columns where all mean values are less than 0.1%
-    data = data.loc[:, (data > 0.001).all(axis=0)]
+    # Remove columns where column mean value is below 0.01
+    data = data.loc[:, data.mean() > 0.01]
 
     return data
 

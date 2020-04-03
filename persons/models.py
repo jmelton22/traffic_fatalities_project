@@ -21,15 +21,15 @@ def main():
 
     labels = data['fatality']
     features = data[cat_cols + binary_cols + numeric_cols]
+
+    features = pd.get_dummies(features, columns=cat_cols)
     feature_names = features.columns
 
-    oe = OrdinalEncoder()
-    features = oe.fit_transform(features)
+    # oe = OrdinalEncoder()
+    # features = oe.fit_transform(features)
 
     scaler = StandardScaler()
     features = scaler.fit_transform(features)
-
-    # features = pd.get_dummies(features, columns=cat_cols)
 
     X_train, X_test, y_train, y_test = train_test_split(features, labels,
                                                         test_size=0.2, random_state=2020)
@@ -59,10 +59,10 @@ def main():
         y_probs = model.predict_proba(X_test)[:, 1]
 
         utils.print_metrics(y_test, y_pred)
-        utils.roc_curve(y_test, y_probs, name, suffix)
-        utils.feature_importance(model, feature_names, name, suffix)
-        utils.permutation_importances(model, X_test, y_test, feature_names, name, suffix)
-        utils.permutation_importances(model, X_train, y_train, feature_names, name, suffix, dataset='train')
+        utils.roc_curve(y_test, y_probs, name, suffix + '_ohe')
+        utils.feature_importance(model, feature_names, name, suffix + '_ohe')
+        utils.permutation_importances(model, X_test, y_test, feature_names, name, suffix + '_ohe')
+        utils.permutation_importances(model, X_train, y_train, feature_names, name, suffix + '_ohe', dataset='train')
         print('#' * 50)
 
 

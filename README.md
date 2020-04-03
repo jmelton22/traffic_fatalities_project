@@ -14,7 +14,7 @@ Population data for US states in 2015-2016 was sourced from the US Census Bureau
 
 Initial data exploration showed that more fatal accidents occurred in the evening hours and on weekends.
 A local peak of fatal accidents is also visible during rush hour in the mornings.
-More fatal accidents from May-October, which may be due to there simply being more cars on the road during the summer months.
+More fatal accidents occur from May-October, which may be because there are more cars on the road during the summer months.
 
 ![Accidents by hour](accidents/visualizations/accidents_by_hour.png)
 
@@ -24,7 +24,7 @@ More fatal accidents from May-October, which may be due to there simply being mo
 
 ## Vehicle-level Analysis
 A classification analysis was performed to determine which features were most predictive of a multiple-fatality accident.
-To account for the severe class imbalance between single and multiple fatalities, the minority class data were oversampled to generate a class balanced dataset for classification.
+To account for the severe class imbalance between single and multiple fatalities, the minority class data were oversampled to generate a class-balanced dataset for classification.
 
 Random Forest, Logistic Regression, K-Nearest Neighbors, and SVC models were fit and evaluated on the data.
 The Random Forest model achieved the best performance. For this model, feature importance was calculated using Mean Decrease Impurity (MDI).
@@ -40,8 +40,8 @@ Using permutation importance can be useful when trying to correct for this bias.
 Unsurprisingly, an accident involving multiple motorists (motorists are defined as anyone in a motor vehicle, not just drivers)
 is the single best predictor of a multiple-fatality accident.
 
-The most important factor seems to be speed limit, with multiple-fatality accidents tending to occur in zones with higher speed limits.
-This is reinforced by the high importance of roadway_type and national_highway_system
+The most important factor other than multiple motorists seems to be speed limit, with multiple-fatality accidents tending to occur in zones with higher speed limits.
+This is reinforced by the high importance of roadway_type and national_highway_system, which is a binary feature indicating whether an accident occurred on a US highway/interstate.
 
 Within the manner of collision category, analysis showed that Front-to-Front collisions were predictive of multiple fatalities, while
 non-collisions with another vehicle were unlikely to result in multiple fatalities.
@@ -76,14 +76,14 @@ The number of fatal accidents per 100k population was calculated from the US Cen
 
 Interestingly, Mississippi and Wyoming were shown to have the highest number of fatal accidents per capita.
 
-A regression analysis was performed determine which feature were most explanatory of the differences between fatal accident rates across US States.
-Linear Regression, Ridge, ElasticNet, and SVR models were trained and evaluated on the aggregated state data. With the SVR and Linear Regression models achieveing the best performance.
+A regression analysis was performed determine which features were most explanatory of the differences between fatal accident rates across US States.
+Linear Regression, Ridge, ElasticNet, and SVR models were trained and evaluated on the aggregated state data, with the SVR and Linear Regression models achieving the best performance.
 Feature importances were estimated using the model weights, and permutation importances were calculated for each feature.
 
 ![LR Feature Importances](states/visualizations/feature_importances_linreg.png)
 
 ![LR Permutation Importances](states/visualizations/permutation_importances_linreg_test.png)
-
+---
 ![SVR Feature Importances](states/visualizations/feature_importances_svr.png)
 
 ![SVR Permutation Importances](states/visualizations/permutation_importances_svr_test.png)
@@ -94,7 +94,7 @@ which supports the finding from the vehicle-level analysis that urban accidents 
 
 ![Urban accidents](states/visualizations/accidents_per_100k_vs_land_use_urban.png)
 
-Deployment of an airbag was negatively correlated as well, supporting the findings from the person-level analysis that airbagg deployment reduced the likelihood of a fatal injury.
+Deployment of an airbag was negatively correlated as well, supporting the findings from the person-level analysis that airbag deployment reduced the likelihood of a fatal injury.
 Conversely, not using safety equipment was positively correlated with fatal accident rates.
 
 ![Safety Equipment None](states/visualizations/accidents_per_100k_vs_safety_equipment_use_None%20Used.png)

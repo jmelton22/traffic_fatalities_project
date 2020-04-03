@@ -4,6 +4,7 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression, RidgeCV, ElasticNetCV
+from sklearn.svm import LinearSVR
 import utils
 
 
@@ -35,7 +36,9 @@ def main():
                                      alphas=[0.01, 0.1, 1.0, 10.0],
                                      max_iter=3000,
                                      cv=5),
-                        'elastic_net')
+                        'elastic_net'),
+        'Linear SVR': (LinearSVR(),
+                       'svr')
     }
 
     for name, (model, suffix) in models.items():

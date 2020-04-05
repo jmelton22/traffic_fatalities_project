@@ -66,12 +66,12 @@ def feature_importance(model, feature_names, name, suffix, n_features=15):
     except AttributeError:
         try:
             feature_importances = model.coef_[0]
-            sorted_idx = abs(feature_importances).argsort()[:n_features]
+            sorted_idx = abs(feature_importances).argsort()[-n_features:]
         except AttributeError as ae:
             print(ae)
             sys.exit(1)
 
-    y_ticks = np.arange(0, n_features)
+    y_ticks = np.arange(0, len(feature_importances))
     fig, ax = plt.subplots(figsize=(12, 8))
     ax.barh(y_ticks, feature_importances[sorted_idx])
     ax.set_yticklabels(feature_names[sorted_idx])

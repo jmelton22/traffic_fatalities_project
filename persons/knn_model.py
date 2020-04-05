@@ -22,10 +22,10 @@ def main():
     features = data[cat_cols + binary_cols + numeric_cols]
     feature_names = features.columns
 
-    # oe = OrdinalEncoder()
-    # features = oe.fit_transform(features)
+    oe = OrdinalEncoder()
+    features = oe.fit_transform(features)
 
-    features = pd.get_dummies(features, columns=cat_cols)
+    # features = pd.get_dummies(features, columns=cat_cols)
 
     scaler = StandardScaler()
     features = scaler.fit_transform(features)

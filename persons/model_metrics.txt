@@ -2,48 +2,49 @@ Random Forest
 --------------------
     Confusion Matrix
                  Predict Positive    Predict Negative
-Actual Positive         8098                 2460
-Actual Negative         3004                 12855
+Actual Positive         8087                 2471
+Actual Negative         2980                 12879
 
-Accuracy: 0.793
+Accuracy: 0.794
 
     Classification Report
            Positive    Negative
 Num cases    10558      15859
 Precision    0.73       0.84
 Recall       0.77       0.81
-F1 Score     0.75       0.82
+F1 Score     0.75       0.83
 ##################################################
 Logistic Regression
 --------------------
     Confusion Matrix
                  Predict Positive    Predict Negative
-Actual Positive         6839                 3719
-Actual Negative         5854                 10005
+Actual Positive         6833                 3725
+Actual Negative         5755                 10104
 
-Accuracy: 0.638
+Accuracy: 0.641
 
     Classification Report
            Positive    Negative
 Num cases    10558      15859
 Precision    0.54       0.73
-Recall       0.65       0.63
+Recall       0.65       0.64
 F1 Score     0.59       0.68
 ##################################################
 K-Nearest Neighbors
-Best k: {'n_neighbors': 11} (5-fold cv)
+
+{'n_neighbors': 17} (5-fold cross validation)
 
     Confusion Matrix
                  Predict Positive    Predict Negative
-Actual Positive         6592                 3966
-Actual Negative         1990                 13869
+Actual Positive         7105                 3453
+Actual Negative         2224                 13635
 
-Accuracy: 0.775
+Accuracy: 0.785
 
     Classification Report
            Positive    Negative
 Num cases    10558      15859
-Precision    0.77       0.78
-Recall       0.62       0.87
-F1 Score     0.69       0.82
+Precision    0.76       0.80
+Recall       0.67       0.86
+F1 Score     0.71       0.83
 ##################################################

@@ -100,8 +100,17 @@ Conversely, not using safety equipment was positively correlated with fatal acci
 ![Safety Equipment None](states/visualizations/accidents_per_100k_vs_safety_equipment_use_None%20Used.png)
 
 Both models picked out dark light conditions with no lighting as the strongest positively correlated feature with fatal accident rates.
+The difference between dark un-lighted and dark lighted roadways was especially striking.
 
 ![Dark Unlighted](states/visualizations/accidents_per_100k_vs_light_condition_Dark%20–%20Not%20Lighted.png)
+
+![Dark Lighted](states/visualizations/accidents_per_100k_vs_light_condition_Dark%20–%20Lighted.png)
+
+A correlation analysis revealed that Standard Pickups were strongly correlated with higher rates of fatal accidents, whereas minivans were negatively associated with fatal accident rates.
+
+![Pickups](states/visualizations/accidents_per_100k_vs_body_type_Standard%20Pickup.png)
+
+![Minivans](states/visualizations/accidents_per_100k_vs_body_type_Minivan.png)
 
 ## Conclusion
 
@@ -117,5 +126,7 @@ Ejection from the vehicle, correlated with not using safety equipment, was stron
 Again, Mississippi and Wyoming ranked low among the states in terms of safety-equipment use in fatal accidents.
 
 Overall, be extra careful when traveling at high speeds and especially when in dark un-lighted conditions - more likely in rural areas. 
+States should seek to increase lighting coverage, especially on their high speed limit roadways such as Interstates and US highways.
+Pickups were the body type most strongly correlated with higher fatal accident rates, while minivans were associated with lower rates of fatal accidents.
 
 Most of all: Wear your seatbelt!

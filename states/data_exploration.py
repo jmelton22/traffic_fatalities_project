@@ -39,6 +39,7 @@ def main():
     scatter_plot(data, 'air_bag_deployed')
     scatter_plot(data, 'body_type_Standard Pickup')
     scatter_plot(data, 'light_condition_Dark – Lighted')
+    scatter_plot(data, 'body_type_Minivan')
 
     plt.show()
 

@@ -59,7 +59,7 @@ def roc_curve(labels, probs, name, suffix):
     fig.savefig(f'visualizations/roc_curve_{suffix}.png')
 
 
-def feature_importance(model, feature_names, name, suffix, n_features=10):
+def feature_importance(model, feature_names, name, suffix, n_features=15):
     try:
         feature_importances = model.feature_importances_
         sorted_idx = feature_importances.argsort()[-n_features:]
@@ -72,37 +72,40 @@ def feature_importance(model, feature_names, name, suffix, n_features=10):
             sys.exit(1)
 
     y_ticks = np.arange(0, n_features)
-    fig, ax = plt.subplots(figsize=(16, 8))
+    fig, ax = plt.subplots(figsize=(12, 8))
     ax.barh(y_ticks, feature_importances[sorted_idx])
     ax.set_yticklabels(feature_names[sorted_idx])
     ax.set_yticks(y_ticks)
-    ax.set_title(f'{name} Feature Importances')
+    ax.set_title(f'{name} Feature Importances', fontsize=16)
+    ax.tick_params(axis='both', which='major', labelsize=14)
     plt.show()
     fig.savefig(f'visualizations/feature_importances_{suffix}.png')
 
 
-def feature_importance_regression(model, feature_names, name, suffix, n_features=10):
+def feature_importance_regression(model, feature_names, name, suffix, n_features=15):
     feature_importances = model.coef_
     sorted_idx = abs(feature_importances).argsort()[-n_features:]
 
     y_ticks = np.arange(0, n_features)
-    fig, ax = plt.subplots(figsize=(16, 8))
+    fig, ax = plt.subplots(figsize=(12, 8))
     ax.barh(y_ticks, feature_importances[sorted_idx])
     ax.set_yticklabels(feature_names[sorted_idx])
     ax.set_yticks(y_ticks)
-    ax.set_title(f'{name} Feature Importances')
+    ax.set_title(f'{name} Feature Importances', fontsize=16)
+    ax.tick_params(axis='both', which='major', labelsize=14)
     plt.show()
     fig.savefig(f'visualizations/feature_importances_{suffix}.png')
 
 
-def permutation_importances(model, X, y, feature_names, name, suffix, dataset='test', n_features=10):
+def permutation_importances(model, X, y, feature_names, name, suffix, dataset='test', n_features=15):
     result = permutation_importance(model, X, y, n_repeats=10, random_state=2020)
     sorted_idx = result.importances_mean.argsort()[-n_features:]
 
-    fig, ax = plt.subplots(figsize=(16, 8))
+    fig, ax = plt.subplots(figsize=(12, 8))
     ax.boxplot(result.importances[sorted_idx].T,
                vert=False, labels=feature_names[sorted_idx])
-    ax.set_title(f'{name} Permutation Importances ({dataset} set)')
+    ax.set_title(f'{name} Permutation Importances ({dataset} set)', fontsize=16)
+    ax.tick_params(axis='both', which='major', labelsize=14)
     plt.show()
     fig.savefig(f'visualizations/permutation_importances_{suffix}_{dataset}.png')
 

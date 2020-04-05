@@ -60,10 +60,8 @@ def data_prep(data):
     data['rollover'] = data['rollover'].apply(lambda x: 0 if x == 'No Rollover' else 1)
 
     def airbag_bin(x):
-        if x == 'Not Deployed':
+        if x == 'Not Deployed' or x == 'Not Applicable':
             return 0
-        elif x == 'Not Applicable':
-            return -1
         else:
             return 1
 

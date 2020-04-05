@@ -35,6 +35,9 @@ def main():
     scatter_plot(data, 'land_use_urban')
     scatter_plot(data, 'safety_equipment_use_None Used')
     scatter_plot(data, 'light_condition_Dark – Not Lighted')
+    scatter_plot(data, 'speeding_related')
+    scatter_plot(data, 'air_bag_deployed')
+    scatter_plot(data, 'body_type_Standard Pickup')
 
     plt.show()
 

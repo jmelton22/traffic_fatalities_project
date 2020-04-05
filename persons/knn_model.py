@@ -27,8 +27,8 @@ def main():
 
     features = pd.get_dummies(features, columns=cat_cols)
 
-    # scaler = StandardScaler()
-    # features = scaler.fit_transform(features)
+    scaler = StandardScaler()
+    features = scaler.fit_transform(features)
 
     X_train, X_test, y_train, y_test = train_test_split(features, labels,
                                                         test_size=0.2, random_state=2020)
